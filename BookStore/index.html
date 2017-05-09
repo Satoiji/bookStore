@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html ng-app="bookStore">
+<head>
+	<meta charset="utf-8"> 
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
+    <!-- jQuery -->
+	<script src="js/jquery-3.2.1.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+	<script src="js/bootstrap.min.js"></script>
+
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+</head>
+<body ng-controller="booksController as allbooks">
+	<header>
+		<div class="container">
+			<h1>Super empresa chida y de baro de libros</h1>
+		</div>
+	</header>
+
+
+	<nav class="navbar navbar-default">
+		<div class="container container-fluid">
+			<div class="row">
+				<div class="col-lg-3"><h1>Libros</h1></div>
+				<div class="col-lg-3 col-lg-offset-6">
+					<p><b>Buscar</b> <input type="text" ng-model="filt.titulo"> <b>Ordenar:</b>
+						<select ng-model="order" ng-init="allbooks.ordering('titulo')">
+							<option value="titulo">Titulo</option>
+							<option value="editorial">Editorial</option>
+						</select>
+						<button class="btn default-btn" ng-click="allbooks.ordering(order)">Ordenar</button>
+					</p>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="container container-fluid" >
+		<ul class="list-group">
+			<li class="list-group-item" ng-repeat="book in allbooks.books | orderBy:allbooks.order | filter:filt">
+				<div class="row">
+					<div class="col-lg-2">
+						<a href="#portfolioModal1" data-toggle="modal"><img class="img-responsive" ng-src="{{book.img}}" ng-click="allbooks.bookSelect(book.id)"></a>
+					</div>
+
+					<div class="col-lg-10">
+						<a href="#portfolioModal1" data-toggle="modal" style="color: black" ng-click="allbooks.bookSelect(book.id)">
+							<h2>{{book.titulo}}</h2>
+							<p><b>{{book.editorial}}</b></p>
+							<p>{{book.descripcion}}</p>
+						</a>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+
+	<div class="portfolio-modal modal fade" tabindex="-1" id="portfolioModal1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+    		<header>
+				<div class="container">
+					<h1>Super empresa chida y de baro de libros</h1>
+				</div>
+			</header>
+            <div class="container container-fluid">
+                <div class="row">
+                	<div class="col-lg-2" id="book">
+						<img class="img-responsive" ng-src="{{allbooks.books[allbooks.bookSelected()-1].img}}">
+					</div>
+					
+					<div class="col-lg-10">
+						<h2>{{allbooks.books[allbooks.bookSelected()-1].titulo}}</h2>
+						<p><b>{{allbooks.books[allbooks.bookSelected()-1].editorial}}</b></p>
+						<p>{{allbooks.books[allbooks.bookSelected()-1].descripcion}}</p>
+					</div>
+                </div>						
+                <div class="row">
+                	<div class="col-lg-10 col-lg-offset-2">
+                		<form name="reviewForm" class="form-horizontal" ng-submit="reviewForm.$valid && allbooks.addReview()" novalidate>
+					 		<blockquote ng-repeat="review in allbooks.books[allbooks.bookSelected()-1].reviews">
+					 			<cite>by: {{review.author}}</cite>
+					 			<b>- Stars: {{review.stars}}</b>
+					 			<p>{{review.body}}</p>
+					 		</blockquote>
+					 		<div class="form-group">
+					 			<label>Stars: </label>
+					 			<select class="form-control" ng-model="allbooks.review.stars" required>
+					 				<option value="1">1 star</option>
+					 				<option value="2">2 stars</option>
+					 				<option value="3">3 stars</option>
+					 				<option value="4">4 stars</option>
+					 				<option value="5">5 stars</option>
+					 			</select>
+					 		</div>
+					 		<div class="form-group">
+					 			<label>Comments: </label>
+					 			<textarea class="form-control" ng-model="allbooks.review.body" placeholder="Deja un comentario para que las personas sepan si te gusto" name="" id="" cols="30" rows="10" required></textarea>
+					 		</div>
+					 		<div class="form-group">
+					 			<label>by:</label>
+				 				<input placeholder="ejemplo@ejemplo.com" class="form-control" type="email" ng-model="allbooks.review.author" required />
+					 		</div>	
+					 		<div class="container container-fluid">
+						 		<div class="row">
+						 			<div class="col-lg-1">
+					 					<input type="submit" value="Submit" class="btn btn-primary" />
+						 			</div>
+						 			<div class="col-lg-1">
+		               					<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+						 			</div>
+						 		</div>
+						 	</div>
+				 		</form>
+                	</div>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+	<script src="js/angular.min.js"></script>
+	<script src="js/books.js"></script>
+</body>
+</html>

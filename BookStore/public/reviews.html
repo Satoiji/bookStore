@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="bookStore">
+<head>
+	<meta charset="utf-8"> 
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+
+    <!-- jQuery -->
+	<script src="../js/jquery-3.2.1.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+	<script src="../js/bootstrap.min.js"></script>
+
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+	<header>
+		<div class="container">
+			<h1>Super empresa chida y de baro de libros</h1>
+		</div>
+	</header>
+
+
+	<div class="container container-fluid" ng-controller="booksController as allbooks">
+	{{allbooks.bookSelect}}
+		<div class="row" ng-repeat="book in allbooks.books">
+			<div class="col-lg-2" ng-show="$index == allbooks.bookSelect">
+				<img class="img-responsive" ng-src="../{{book.img}}">
+			</div>
+
+			<div class="col-lg-10">
+				<a href="public/reviews.html" style="color: black" ng-click="allbooks.bookSelected($index)">
+					<h2>{{book.titulo}}</h2>
+					<p><b>{{book.editorial}}</b></p>
+					<p>{{book.descripcion}}</p>
+				</a>
+			</div>
+		</div>
+	</div>
+	<script src="../js/angular.min.js"></script>
+	<script src="../js/books.js"></script>
+</body>
+</html>
